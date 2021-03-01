@@ -19,7 +19,7 @@ public class Client {
     }
 
     private void showMenu(List<Actions> choice) {
-        for(Actions a : choice) {
+        for (Actions a : choice) {
             System.out.println(a.name());
         }
     }

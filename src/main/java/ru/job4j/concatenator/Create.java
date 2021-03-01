@@ -8,7 +8,7 @@ public interface Create {
 
     String operation(String[] in);
 
-    boolean checkName (String name);
+    boolean checkName(String name);
 
-    boolean checkEmail (String email);
+    boolean checkEmail(String email);
 }

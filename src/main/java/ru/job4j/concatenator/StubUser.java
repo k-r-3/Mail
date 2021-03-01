@@ -3,9 +3,9 @@ package ru.job4j.concatenator;
 import java.util.Arrays;
 import java.util.HashSet;
 
-public class StubUser implements User{
+public class StubUser implements User {
     private HashSet<String> mails;
-    String name;
+    private String name;
 
     public StubUser(String name) {
         this.name = name;

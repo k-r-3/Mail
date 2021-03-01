@@ -1,7 +1,7 @@
 package ru.job4j.concatenator;
 
 public class StubInput implements Input {
-    String message;
+    private String message;
 
     public StubInput(String message) {
         this.message = message;

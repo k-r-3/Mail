@@ -4,9 +4,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
 
-public class RealUser implements User{
+public class RealUser implements User {
     private HashSet<String> mails;
-    String name;
+    private String name;
 
     public RealUser(String name) {
         this.name = name;
@@ -29,11 +29,15 @@ public class RealUser implements User{
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         RealUser realUser = (RealUser) o;
-        return Objects.equals(mails, realUser.mails) &&
-                Objects.equals(name, realUser.name);
+        return Objects.equals(mails, realUser.mails)
+                && Objects.equals(name, realUser.name);
     }
 
     @Override

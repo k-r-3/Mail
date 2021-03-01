@@ -3,7 +3,7 @@ package ru.job4j.concatenator;
 import java.util.InputMismatchException;
 
 public class ValidInput implements Input {
-    Input in;
+    private Input in;
 
     public ValidInput(Input in) {
         this.in = in;
