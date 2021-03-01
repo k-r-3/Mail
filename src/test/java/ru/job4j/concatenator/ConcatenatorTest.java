@@ -25,7 +25,7 @@ public class ConcatenatorTest {
         UserInput input = new UserInput();
         Concatenator c = new Concatenator(cUser);
         c.operation(input);
-        assertThat(c.getMap().size(), is(2));
+        assertThat(c.getMap().size(), is(3));
     }
 
     @Test
