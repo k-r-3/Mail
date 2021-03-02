@@ -28,7 +28,6 @@ public class ConcatenatorTest {
         var iterator = c.getMap().entrySet().iterator();
         iterator.next();
         iterator.next();
-        iterator.next();
         assertFalse(iterator.hasNext());
     }
 
