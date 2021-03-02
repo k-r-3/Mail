@@ -9,7 +9,6 @@ import static org.hamcrest.Matchers.is;
 
 public class ConcatenatorTest {
 
-
     @Test
     public void whenPutSameUsers() {
         CreateStubUser cUser = new CreateStubUser();
