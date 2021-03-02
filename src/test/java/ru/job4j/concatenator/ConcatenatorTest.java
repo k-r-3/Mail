@@ -9,6 +9,7 @@ import static org.hamcrest.Matchers.is;
 
 public class ConcatenatorTest {
 
+
     @Test
     public void whenPutSameUsers() {
         CreateStubUser cUser = new CreateStubUser();
@@ -22,26 +23,30 @@ public class ConcatenatorTest {
         cUser.operation(in4);
         String[] in5 = {"user5", "xyz@pisem.net"};
         cUser.operation(in5);
+        Concatenator c = new Concatenator(cUser);
+        UserInput input = new UserInput();
+        c.operation(input);
+        var iterator = c.getMap().entrySet().iterator();
+        iterator.next();
+        iterator.next();
+        iterator.next();
+        assertFalse(iterator.hasNext());
+    }
+
+    @Test
+    public void whenPutDifferentUsers() {
+        CreateStubUser cUser = new CreateStubUser();
+        String[] in1 = {"user1", "xxx@ya.ru,foo@gmail.com,lol@mail.ru"};
+        cUser.operation(in1);
+        String[] in2 = {"user2", "foo@mail.com,ups@pisem.net"};
+        cUser.operation(in2);
+        String[] in3 = {"user3", "xyz@pisem.net,vasya@pupkin.com"};
+        cUser.operation(in3);
         UserInput input = new UserInput();
         Concatenator c = new Concatenator(cUser);
         c.operation(input);
         assertThat(c.getMap().size(), is(3));
     }
-//
-//    @Test
-//    public void whenPutDifferentUsers() {
-//        CreateStubUser cUser = new CreateStubUser();
-//        String[] in1 = {"user1", "xxx@ya.ru,foo@gmail.com,lol@mail.ru"};
-//        cUser.operation(in1);
-//        String[] in2 = {"user2", "foo@gmail.com,ups@pisem.net"};
-//        cUser.operation(in2);
-//        String[] in3 = {"user3", "xyz@pisem.net,vasya@pupkin.com"};
-//        cUser.operation(in3);
-//        UserInput input = new UserInput();
-//        Concatenator c = new Concatenator(cUser);
-//        c.operation(input);
-//        assertThat(c.getMap().size(), is(2));
-//    }
 
     @Test
     public void whenPutAlongUser() {
