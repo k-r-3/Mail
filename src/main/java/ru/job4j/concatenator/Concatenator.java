@@ -59,7 +59,7 @@ public class Concatenator implements Actions {
             }
         }
         System.out.println(finalResult);
-        forTest = finalResult;
+//        forTest = finalResult;
         return true;
     }
 
