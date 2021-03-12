@@ -16,7 +16,7 @@ private List<User> users = new ArrayList<>();
         }
         System.out.println("Enter emails with ','");
         String email = sc.nextLine();
-        while (!email.matches("(\\w*@\\w*\\W\\w*.?)+")) {
+        while (!email.matches("(\\w*@\\w*\\W\\w*.)+")) {
             System.out.println("wrong email");
             email = sc.nextLine();
         }
