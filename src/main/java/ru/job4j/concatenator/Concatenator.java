@@ -1,74 +1,53 @@
 package ru.job4j.concatenator;
-
 import java.util.*;
 
-public class Concatenator implements Actions {
-    private Create users;
-    private HashSet<User> userSet;
-    private Map<User, Set<String>> forTest = new HashMap<>();
+public class Concatenator {
+    private Store store;
 
-    public Concatenator(Create users) {
-        this.users = users;
+    public Concatenator(Store store) {
+        this.store = store;
     }
 
-    @Override
-    public boolean operation(UserInput in) {
+    public Map<User, Set<String>> join() {
+        Map<String, User> supplier = new HashMap<>();
         Map<User, Set<String>> intermediateResult = new HashMap<>();
         Map<User, Set<String>> finalResult = new HashMap<>();
-        Map<String, User> supplier = new HashMap<>();
-        ArrayDeque<User> stack = new ArrayDeque<>();
-        userSet = users.getUsers();
-        var iter = userSet.iterator();
-        if (userSet.isEmpty()) {
-            System.out.println("Create user before");
-            return true;
-        }
-        while (iter.hasNext()) {
-            User user = iter.next();
-            Iterator<String> mailIter = user.getMails().iterator();
-            while (mailIter.hasNext()) {
-                String mail = mailIter.next();
+        Set<String> duplicate = new HashSet<>();
+        for (User user : store.getUsers()) {
+            for (String mail : user.getMails()) {
                 if (!supplier.containsKey(mail)) {
                     supplier.put(mail, user);
                 } else {
-                    supplier.get(mail).getMails().addAll(user.getMails());
-                    break;
-                }
-                intermediateResult.put(supplier.get(mail), supplier.get(mail).getMails());
-                if (!stack.contains(supplier.get(mail))) {
-                    stack.add(supplier.get(mail));
-                }
-            }
-        }
-        var resultIter = intermediateResult.entrySet().iterator();
-        User user = stack.removeLast();
-        while (resultIter.hasNext()) {
-            Map.Entry<User, Set<String>> entry = resultIter.next();
-            for (String mail : entry.getValue()) {
-                if (user.getMails().contains(mail)) {
-                    entry.getValue().addAll(user.getMails());
-                    finalResult.put(entry.getKey(), entry.getValue());
-                    if (stack.size() > 1) {
-                        user = stack.removeLast();
+                    User oldUser = supplier.get(mail);
+                    oldUser.getMails().addAll(user.getMails());
+                    duplicate.add(user.toString());
+                    for (String newMail : oldUser.getMails()) {
+                        supplier.put(newMail, oldUser);
                     }
                     break;
                 }
             }
-            if (!finalResult.containsValue(user.getMails())) {
-                finalResult.put(entry.getKey(), entry.getValue());
+            if (!duplicate.contains(user.toString())) {
+                intermediateResult.put(user, user.getMails());
             }
         }
-        System.out.println(finalResult);
-//        forTest = finalResult;
-        return true;
-    }
-
-    public Map<User, Set<String>> getMap() {
-        return forTest;
-    }
-
-    @Override
-    public String name() {
-        return "1. Join users";
+        if (intermediateResult.size() == 1) {
+            return intermediateResult;
+        }
+        final ArrayDeque<User> usersCopy = new ArrayDeque<>(intermediateResult.keySet());
+        while (usersCopy.size() > 0) {
+            User last = usersCopy.pollLast();
+            for (User dub : intermediateResult.keySet()) {
+                    Set<String> cons = new HashSet<>(dub.getMails());
+                    if (!dub.equals(last) && cons.removeAll(last.getMails())) {
+                        dub.getMails().addAll(last.getMails());
+                        duplicate.add(last.toString());
+                    }
+                if (!duplicate.contains(dub.toString())) {
+                    finalResult.put(dub, dub.getMails());
+                }
+            }
+        }
+        return finalResult;
     }
 }

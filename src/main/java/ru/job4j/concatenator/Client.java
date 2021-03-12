@@ -1,32 +1,29 @@
 package ru.job4j.concatenator;
-
-import java.util.List;
+import java.util.Scanner;
 
 public class Client {
 
-    public void menu(List<Actions> act, UserInput in) {
-        boolean answer = true;
-        int choice = -1;
-        while (answer) {
-            showMenu(act);
-            try {
-                choice = Integer.parseInt(in.askString("choice operation : "));
-                answer = act.get(choice).operation(in);
-            } catch (NumberFormatException e) {
-                System.out.println("wrong menu item");
+    public void run() {
+        UserStore store = new UserStore();
+        Concatenator joiner = new Concatenator(store);
+        Scanner sc = new Scanner(System.in);
+        String action = "";
+        do {
+            System.out.println("Choice menu item : ");
+            System.out.println("1. create user");
+            System.out.println("2. concatenate user emails");
+            System.out.println("0. exit");
+            action = sc.nextLine();
+            if (action.equals("1")) {
+                store.add();
+            } else if (action.equals("2")) {
+                System.out.println(joiner.join());
             }
-        }
-    }
 
-    private void showMenu(List<Actions> choice) {
-        for (Actions a : choice) {
-            System.out.println(a.name());
-        }
+        } while (!action.equals("0"));
     }
 
     public static void main(String[] args) {
-        Client c = new Client();
-        var user = new CreateUser();
-        c.menu(List.of(user, new Concatenator(user), new Exit()), new UserInput());
+        new Client().run();
     }
 }
